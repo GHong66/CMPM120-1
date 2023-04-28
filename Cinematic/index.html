@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.js" integrity="sha512-H05oT7BAjM9Ai1IaFX9zr61NtE2e1P0MkTz3AZXBnseaJSAOt2FGMFJ+vVGutaJxEGA1jxUiYsTBYQNE08/Erw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        class Intro extends Phaser.Scene {
+            constructor() {
+                super('intro');
+            }
+
+            preload(){
+                this.load.path = './assets/';
+                this.load.image('logo', 'Logo.png');
+                this.load.image('iso', 'iso1.png');
+                this.load.spritesheet('logo2', 'logospritesheet.png', {
+                    frameWidth: 3300,
+                    frameHeight: 2550,
+                    endFrame: 30
+                });
+                this.load.spritesheet('deltaStudio', 'logospritesheet2.png', {
+                    frameWidth: 825,
+                    frameHeight: 638,
+                    endFrame: 30
+                });
+                this.load.audio('walki', 'walki.mp3');
+                this.load.audio('music', 'music1.mp3');
+
+
+
+            }
+            create() {
+                    this.cameras.main.setBackgroundColor('#485873');
+
+                    // Create a graphics object and add it to the game
+                    let graphics = this.add.graphics();
+                
+                    // Set the fill style to red and draw a rectangle on the graphics object
+                    graphics.fillStyle(0x0000ff, 1);
+                    graphics.fillRect(-700, 440, 700, 50);
+
+                    // Use a tween to animate the graphics object from left to right
+                    let tween = this.tweens.add({
+                    targets: graphics,
+                    x: 700,
+                    duration: 2000,
+                    ease: 'Linear',
+                    });
+
+                    this.time.delayedCall(2000, () => {
+                        // this.add.text(240, 200, "Click to start");
+                        
+                        // //play button image test 
+                        // this.imageObject = this.add.image(
+                        //     320,//x
+                        //     100,//y
+                        //     'logo',//imagename
+                        // )
+                        // this.imageObject.setScale(0.1);
+                    
+
+                        let tri = this.add.graphics();
+    
+                        // Set the fill style to white and draw a triangle on the graphics object
+                        tri.fillStyle(0xffffff, 1);
+                        tri.fillTriangle(240, 160, 240, 320, 400, 240);
+                    
+                    this.tweens.add({
+                        targets: graphics,
+                        alpha: 0,
+                        duration: 2000,
+                        ease: 'Linear',
+                        onComplete: () => {
+                            console.log('Fade in complete');
+                        }
+                    });
+
+
+
+                        // let targetObj = this.add.text(150, 70, 'Target Object').setOrigin(0.5).setInteractive();
+
+
+                        this.input.on('pointerdown', () => {
+                            // Fade out the scene and then start the next scene
+                            this.cameras.main.fadeOut(1000, 0, 0, 0, (camera, progress) => {
+                                if (progress === 1) {
+                                    this.scene.start('one');
+                                }
+                            });
+                        });
+                    });
+        
+                
+                }
+        }
+
+        class One extends Phaser.Scene {
+            constructor() {
+                super('one');
+            }
+
+            create() {
+                
+                //this.cameras.main.setBackgroundColor('#ffffff');
+                //////////////////ANIMATION
+                // this.delta = this.add.sprite(320, 240, 'logo2');
+                // this.anims.create({
+                //     key: 'logo2',
+                //     frames: this.anims.generateFrameNumbers('logo2', { start: 0, end: 29 }),
+                //     frameRate: 24,
+                //     repeat: 0
+                // });
+                // this.delta.setScale(0.05);
+                
+                // this.delta.play('logo2', true);
+
+                
+                this.deltaStudio = this.add.sprite(320, 240, 'deltaStudio');
+                this.anims.create({
+                    key: 'deltaStudio',
+                    frames: this.anims.generateFrameNumbers('deltaStudio', { start: 0, end: 30 }),
+                    frameRate: 24,
+                    repeat: 0
+                });
+                this.deltaStudio.setScale(0.5);
+                
+                //this.deltaStudio.play('deltaStudio', true);
+                this.time.delayedCall(1000, () => {
+                    this.deltaStudio.play('deltaStudio', true);
+                });
+                
+
+                this.cameras.main.fadeIn(2000);
+                
+                //this.add.text(10,10, "This is scene One HELP MEEEEEEEEEEEEEE.");
+                this.time.delayedCall(2000, () => this.cameras.main.fadeOut(1000, 0,0,0));
+                this.time.delayedCall(3000, () => this.scene.start('two'));
+                //this.input.on('pointerdown', () => this.scene.start('two'));
+
+                // this.cameras.main.fadeOut(1000, 0, 0, 0, (camera, progress) => {
+                //                 if (progress === 1) {
+                //                     this.scene.start('two');
+                //                 }
+                //             });
+
+                //this.time.delayedCall(6000, () => this.scene.start('two'));
+                
+                // Play the animation
+                
+                
+            }
+            
+        }
+
+        class Two extends Phaser.Scene {
+            constructor() {
+                super('two');
+            }
+            create() {
+
+                //let logo = this.add.image(0, 0, 'logo');
+                //logo.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
+
+                
+                
+                this.cameras.main.setBackgroundColor('rgba(0,0,0)');
+                //this.add.text(10,10, "Officer 65\nImbound call center 115");
+
+                
+                const sound = this.sound.add('walki');
+                sound.play();
+                let text = this.add.text(320, 240, 'Officer 65\nImbound call center 115', { fontFamily: 'Arial Black', fontSize: '32px', color: '#ffffff' });
+                    text.setOrigin(0.5, 0.5);
+                    text.setAlpha(0);
+
+                    this.tweens.add({
+                        targets: text,
+                        alpha: 1,
+                        duration: 2000,
+                        ease: 'Linear',
+                        onComplete: () => {
+                            console.log('Fade in complete');
+                        }
+                    });
+
+                this.cameras.main.fadeIn(1000, 0,0,0);
+                this.time.delayedCall(2000, () => this.cameras.main.fadeOut(4000, 0,0,0));
+                this.time.delayedCall(7000, () => this.scene.start('three'));
+            }
+        }
+
+        class Three extends Phaser.Scene {
+            constructor() {
+                super('three');
+            }
+            create() {
+                this.cameras.main.fadeIn(2000);
+                // Drop text over a pink background
+                const sound1 = this.sound.add('music');
+                sound1.play();
+                this.imageObject = this.add.image(
+                            680,//x
+                            90,//y
+                            'iso',//imagename
+                        )
+                        this.imageObject.setScale(1.25);
+                    let text = this.add.text(320, 240, 'Isolation 65', { fontFamily: 'Arial Black', fontSize: '32px', color: '#ffffff' });
+                    text.setOrigin(0.5, 0.5);
+                    text.setAlpha(0);
+
+                
+                this.input.on('pointerdown', () => this.scene.start('outro') );
+                //this.time.delayedCall(1000, () => this.scene.start('outro'));
+            }
+        }
+
+        class Outro extends Phaser.Scene {
+            constructor() {
+                super('outro');
+            }
+            create() {
+                let text1 = this.add.text(320, 240, 'Incoming solo support team', { fontFamily: 'Arial Black', fontSize: '32px', color: '#ffffff' });
+                    text1.setOrigin(0.5, 0.5);
+                    text1.setAlpha(0);
+                this.add.text(10,10, "This is the end. Click to restart.");
+                this.input.on('pointerdown', () => this.scene.start('one') );
+            }
+        }
+
+        let game = new Phaser.Game({
+            width: 640,
+            height: 480,
+            scene: [Intro, One, Two, Three, Outro]
+        });
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

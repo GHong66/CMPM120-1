@@ -1,0 +1,58 @@
+{
+    "Title": "Sign",
+    "Credits": "Created by Garrett Hong",
+    "InitialLocation": "Pit",
+    "Locations": {
+        "Pit": {
+            "Body": "The ship has crashed",
+            "Choices": [
+                {
+                    "Text": "Wake up",
+                    "Target": "Up"
+                }
+            ]
+        },
+        "Up": {
+            "Body": "Nobodys aboard and the ship is in terrible condition",
+            "Choices": [
+                {
+                    "Text": "Exit the room",
+                    "Target": "Exit"
+                },
+                {
+                    "Text": "Search the room",
+                    "Target": "Search"
+                }
+            ]
+        },
+        "Search": {
+            "Body": "You found a note 'Left is always right'",
+            "Choices": [
+                {
+                    "Text": "Exit the room",
+                    "Target": "Exit"
+                }
+            ]
+        },
+        "Exit": {
+            "Body": "You leave the ship. There are footstep trails going off into seperate directions",
+            "Choices": [
+                {
+                    "Text": "left",
+                    "Target": "Beyond"
+                },
+                {
+                    "Text": "right",
+                    "Target": "Right"
+                }
+            ]
+        },
+        "Beyond": {
+            "Body": "Civilization ahead. Lets go find out what happened."
+        },
+
+        "Right": {
+            "Body": "Thes fog everywhere. I think we are"
+        }
+    }
+}
